@@ -1,4 +1,4 @@
-import { Router } from "express";
+import Router from "express-promise-router";
 import {
   getAllServices,
   createService,
@@ -6,18 +6,19 @@ import {
   updateService,
   getService,
 } from "../controllers/services.controller.js";
+import { isAuth } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.get("/services", getAllServices);
+router.get("/services",  getAllServices);
 
 router.get("/services/:id", getService);
 
-router.post("/services", createService);
+router.post("/services",isAuth, createService);
 
-router.put("/services/:id", updateService);
+router.put("/services/:id",isAuth, updateService);
 
-router.delete("/services/:id", deleteService);
+router.delete("/services/:id",isAuth, deleteService);
 
 // TODO - Obtener todos los servicios de un determinado usuario
 
