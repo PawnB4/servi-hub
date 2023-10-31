@@ -31,6 +31,14 @@ export function AuthProvider({ children }) {
     setIsAuth(true);
   };
 
+  const signOut = async () => {
+    const res = await axios.post("/auth/signout", {
+      withCredentials: true,
+    });
+    setUser(null);
+    setIsAuth(false);
+  };
+
   const restorePassword = async (data) => {
     const res = await axios.put("/api/auth/login", data);
   };
@@ -52,7 +60,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuth, signUp, logIn, restorePassword }}
+      value={{ user, isAuth, signUp, logIn, restorePassword, signOut }}
     >
       {children}
     </AuthContext.Provider>

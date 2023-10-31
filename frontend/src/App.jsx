@@ -8,8 +8,12 @@ import SignupPage from "./pages/SignupPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AuthLayout from "./components/AuthLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useAuth } from "./context/AuthContext";
 
 export const App = () => {
+  const { isAuth } = useAuth();
+  console.log(isAuth);
   return (
     <Routes>
       <Route
@@ -24,12 +28,25 @@ export const App = () => {
       />
       <Route path="/services" element={<ServicesPage />} />
       <Route path="/services/:id" element={<ServiceDetailPage />} />
+
       <Route
-        path="/signup"
-        element={<AuthLayout children={<SignupPage />} />}
-      />
-      <Route path="/login" element={<AuthLayout children={<LoginPage />} />} />
-      <Route path="/profile" element={<ProfilePage />} />
+        element={<ProtectedRoute isAllowed={!isAuth} redirectTo={"/profile"} />}
+      >
+        <Route
+          path="/signup"
+          element={<AuthLayout children={<SignupPage />} />}
+        />
+        <Route
+          path="/login"
+          element={<AuthLayout children={<LoginPage />} />}
+        />
+      </Route>
+
+      <Route
+        element={<ProtectedRoute isAllowed={isAuth} redirectTo={"/login"} />}
+      >
+        <Route path="/profile" element={<ProfilePage />} />
+      </Route>
     </Routes>
   );
 };

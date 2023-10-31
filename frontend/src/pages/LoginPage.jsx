@@ -16,7 +16,7 @@ function LoginPage() {
   const dialogRef = useRef(null);
   const { logIn, restorePassword } = useAuth();
   const navigate = useNavigate();
-
+  
   const {
     register,
     handleSubmit,

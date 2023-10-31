@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { BiSolidUserCircle } from "react-icons/bi";
 import LogoServiHub from "./LogoServiHub";
 import HamburgerButton from "./HamburgerButton";
@@ -6,15 +6,13 @@ import SignOutBtn from "./SignOutButton";
 import {useAuth} from "../context/AuthContext";
 
 function Navbar() {
-  const contt = useAuth();
-  console.log(contt);
-  let user = true;
-  const [logged, setLogged] = useState(!!user);
+  const {isAuth} = useAuth();
+  const [logged, setLogged] = useState(!!isAuth);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    setLogged(!!user);
-  }, [user]);
+    setLogged(!!isAuth);
+  }, [isAuth]);
 
   const displayItems = () => {
     setIsOpen(!isOpen);

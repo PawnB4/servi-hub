@@ -1,14 +1,11 @@
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 function SignOutBtn() {
-//   const router = useRouter();
+  const { signOut } = useAuth();
   const cerrarSesion = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/signout",null,{
-        withCredentials: true
-      });
-    //   router.refresh();
-    //   router.push(`/login`);
+      signOut();
     } catch (error) {
       console.log(error);
     }
