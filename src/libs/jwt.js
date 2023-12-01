@@ -34,3 +34,16 @@ export const createAccessToken = (payload) => {
     .setNotBefore(iat)
     .sign(new TextEncoder().encode(getJwtSecretKey()));
 };
+
+
+export const createPasswordResetToken = (payload) => {
+  const iat = Math.floor(Date.now() / 1000);
+  const exp = iat + 60 * 15; // 15 minutes 
+  return new SignJWT({ ...payload })
+    .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+    .setJti(nanoid())
+    .setExpirationTime(exp)
+    .setIssuedAt(iat)
+    .setNotBefore(iat)
+    .sign(new TextEncoder().encode(getJwtSecretKey()));
+};

@@ -59,7 +59,7 @@ function Navbar() {
               <SignOutBtn />
             </div>
             <div className="md:text-center">
-              <a className="hover:text-black" href="/user">
+              <a className="hover:text-black" href="/profile">
                 <BiSolidUserCircle size={30} />
               </a>
             </div>

@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
-import { useRef, useState } from "react";
-import Spinner from "../components/Spinner";
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { PiWarningOctagonFill } from "react-icons/pi";
 
 function SignupPage() {
   const navigate = useNavigate();
   const { signUp } = useAuth();
+  const [invalidMail, setInvalidMail] = useState(false);
 
   const {
     register,
@@ -14,25 +15,16 @@ function SignupPage() {
     formState: { errors },
   } = useForm();
 
-  const dialogRef = useRef(null);
-
-  const openDialog = () => {
-    if (dialogRef.current) {
-      dialogRef.current.showModal();
-    }
-  };
-  const closeDialog = () => {
-    if (dialogRef.current) {
-      dialogRef.current.close();
-    }
-  };
-
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await signUp(data);
-      navigate("/profile");
+      const res = await signUp(data);
+      if (res.code === 1) {
+        setInvalidMail(true);
+      } else {
+        navigate("/profile");
+      }
     } catch (error) {
-      openDialog();
+      console.log(error);
     }
   });
 
@@ -44,6 +36,18 @@ function SignupPage() {
             Regístrate como proveedor
           </h1>
           <hr className="bg-primary h-0.5 border-none" />
+          {invalidMail && (
+            <div className="grid grid-cols-4 justify-center items-center p-3 rounded-md gap-3 bg-darkerAccent">
+              <div className="flex justify-center">
+                <PiWarningOctagonFill size={60} />
+              </div>
+              <h2 className="col-span-3" style={{ textWrap: "balance" }}>
+                Este correo electrónico ya está registrado. Por favor, utiliza
+                otra dirección de correo electrónico o inicia sesión si ya
+                tienes una cuenta
+              </h2>
+            </div>
+          )}
           {/* form inputs */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex flex-col gap-2">
@@ -158,31 +162,13 @@ function SignupPage() {
               {errors.phone && <span className="">{errors.phone.message}</span>}
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-neutral" htmlFor="securityQuestion">
-                Pregunta de seguridad
-              </label>
-              <input
-                {...register("restore_word", {
-                  required: {
-                    value: true,
-                    message: "Pregunta de seguridad requerido",
-                  },
-                })}
-                id="securityQuestion"
-                type="text"
-                className="px-3 py-2 border-2  border-neutral rounded-md focus:outline-none focus:ring focus:border-accent text-fontcolor"
-                placeholder="¿Cual es el nombre de su primer mascota?"
-              />
-              {errors.restore_word && (
-                <span className="">{errors.restore_word.message}</span>
-              )}
+              <button
+                type="submit"
+                className="bg-primary text-neutral p-2 rounded-md text-xl font-bold tracking-wide hover:bg-opacity-95 mt-auto "
+              >
+                Crear cuenta
+              </button>
             </div>
-            <button
-              type="submit"
-              className="bg-primary text-neutral p-2 rounded-md text-xl font-bold tracking-wide hover:bg-opacity-95 md:col-start-2"
-            >
-              Crear cuenta
-            </button>
           </div>
         </div>
       </form>
@@ -192,28 +178,6 @@ function SignupPage() {
           Inicia sesión
         </a>
       </div>
-      <dialog
-        ref={dialogRef}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary rounded-xl z-10 border-black border-4 p-8"
-      >
-        <div className="bg-white flex flex-col gap-4 rounded-lg justify-center items-center">
-          <h1
-            className="text-xl text-fontcolor p-2 font-bold text-center"
-            style={{ textWrap: "balance" }}
-          >
-            YA EXISTE UNA CUENTA ASOCIADA AL CORREO INTRODUCIDO
-          </h1>
-          <div>
-            <button
-              className="bg-secondary p-2 rounded-md hover:bg-accent hover:text-white"
-              onClick={closeDialog}
-            >
-              CERRAR
-            </button>
-          </div>
-          <div></div>
-        </div>
-      </dialog>
     </>
   );
 }

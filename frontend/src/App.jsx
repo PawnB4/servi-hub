@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -9,7 +10,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AuthLayout from "./components/AuthLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useAuth } from "./context/AuthContext";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 export const App = () => {
   const { isAuth } = useAuth();
@@ -26,8 +27,28 @@ export const App = () => {
           </>
         }
       />
-      <Route path="/services" element={<ServicesPage />} />
-      <Route path="/services/:id" element={<ServiceDetailPage />} />
+      <Route
+        path="/services"
+        element={
+          <>
+            <Navbar />
+            <ServicesPage />
+            <Footer />
+          </>
+        }
+      />
+      <Route
+        path="/services/:id"
+        element={
+          <>
+            <Navbar />
+            <ServiceDetailPage />
+            <Footer />
+          </>
+        }
+      />
+
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
 
       <Route
         element={<ProtectedRoute isAllowed={!isAuth} redirectTo={"/profile"} />}
@@ -45,7 +66,16 @@ export const App = () => {
       <Route
         element={<ProtectedRoute isAllowed={isAuth} redirectTo={"/login"} />}
       >
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/profile"
+          element={
+            <>
+              <Navbar />
+              <ProfilePage />
+              <Footer />
+            </>
+          }
+        />
       </Route>
     </Routes>
   );

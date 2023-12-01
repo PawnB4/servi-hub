@@ -63,13 +63,10 @@ form span {
 }
 
 #serviceForm span {
-  @apply text-black;
+  @apply text-red-700;
   font-weight: bold;
 }
 
-.columnSpan2 {
-  grid-column: 2;
-}
 
 
 /* Spinner */

@@ -15,24 +15,33 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
-  const [errors, setErrors] = useState(false);
 
   const signUp = async (data) => {
     const res = await axios.post("/auth/signup", data);
+    if (res.data.code === 1) {
+      setIsAuth(false);
+    } else {
+      setIsAuth(true);
+    }
     setUser(res.data);
-    setIsAuth(true);
+    return res.data;
   };
 
   const logIn = async (data) => {
     const res = await axios.post("/auth/login", data, {
       withCredentials: true,
     });
-    setUser(res.data);
-    setIsAuth(true);
+    if (res.data.code === 0) {
+      setIsAuth(true);
+    } else {
+      setIsAuth(false);
+    }
+    setUser(res.data.user);
+    return res;
   };
 
   const signOut = async () => {
-    const res = await axios.post("/auth/signout", {
+    await axios.post("/auth/signout", {
       withCredentials: true,
     });
     setUser(null);
@@ -40,7 +49,11 @@ export function AuthProvider({ children }) {
   };
 
   const restorePassword = async (data) => {
-    const res = await axios.put("/api/auth/login", data);
+    await axios.put("/auth/login", data);
+  };
+
+  const sendRestorePasswordEmail = async (data) => {
+    await axios.post("/auth/send-mail", data);
   };
 
   useEffect(() => {
@@ -60,7 +73,15 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuth, signUp, logIn, restorePassword, signOut }}
+      value={{
+        user,
+        isAuth,
+        signUp,
+        logIn,
+        restorePassword,
+        signOut,
+        sendRestorePasswordEmail,
+      }}
     >
       {children}
     </AuthContext.Provider>

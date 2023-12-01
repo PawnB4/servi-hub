@@ -12,7 +12,7 @@ export const isAuth = async (req, res, next) => {
       console.log("Error de autorizacion")
       return res.status(401).json({ message: "No autorizado" });
     }));
-  console.log("TOKEN VERIFICADO: ", verifiedToken);
+  console.log("TOKEN VERIFICADO");
   req.userId = verifiedToken.id;
   next();
 };
