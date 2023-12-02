@@ -31,7 +31,7 @@ function ServiceForm({ user_id, onServiceCreation }) {
     formData.append("cost", data.costCheckbox ? "A definir" : data.cost);
     formData.append("image", imageFile[0]);
     try {
-      setLoading(true)
+      console.log(formData)
       await createServiceRequest(formData);
       onServiceCreation();
     } catch (error) {

@@ -29,10 +29,11 @@ app.use(express.urlencoded({ extended: false }));
 const specs = swaggerJsDoc(options);
 
 //Routes
+
+app.get("/", (req, res) => res.json({ message: "Welcome to my API" }));
 app.get("/api/ping", async (req, res) => {
-  const pingResponse = await conn.execute("SELECT NOW()")
-  console.log("SECRET ENV: ",SUPER_SECRET_ENV)
-  return res.json(pingResponse.rows[0] )
+  const pingResponse = await conn.execute("SELECT NOW()");
+  return res.json(pingResponse.rows[0]);
 });
 app.use("/api", servicesRoutes);
 app.use("/api/auth", authRoutes);

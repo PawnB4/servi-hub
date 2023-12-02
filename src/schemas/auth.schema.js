@@ -53,7 +53,7 @@ export const logInSchema = z.object({
       required_error: "password is required",
       invalid_type_error: "password must be a string",
     })
-    .min(8, {
+    .min(1, {
       message: "Password must be at least 8 characters long",
     })
     .max(255),

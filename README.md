@@ -4,14 +4,11 @@ Servi Hub - Tu destino para encontrar servicios personalizados
 
 ## Documentación
 
-- _Documentación de Endpoints:_ Localmente, ejecutar el backend y en el navegador dirigirse acceder a la URI `/api/docs`
-
-- _Guia de despliegue:_ https://docs.google.com/document/d/1TAU1X5pGdhb7JbBXggh2VeUEoflouKvKTlEuyjyR9uc/edit?usp=sharing
+- _Documentación de Endpoints:_ Localmente con Swagger. Ejecutá el backend y en el navegador accedé a la URI `/api/docs`. La URL por defecto suele ser `http://localhost:3000/api/docs`
 
 - _Requerimientos:_ https://docs.google.com/document/d/1mKrfIPMAamfZdZf-P_84x8s5JxNmDBUkoCXJubA-vxg/edit?usp=sharing
 
 - _Diagrama de BD:_ https://asset.cloudinary.com/ddx4fkbj5/93bd415573ea1a7234b0ddb162ea22d9
-
 
 ## BACKEND
 
@@ -43,10 +40,9 @@ Utilizar operador de fusión nula para definir valores locales en el archivo `co
 - `CLOUDINARY_API_SECRET`: Esta es la clave API Secret de Cloudinary que garantiza la seguridad en tus solicitudes.
 - `RESEND_API_KEY`: Utiliza esta clave API de Resend para enviar correos electrónicos.
 - `FROM_EMAIL`: Esta dirección de correo electrónico se usa como remitente en los correos electrónicos enviados a través de Resend.
-- `DATABASE_URL`: Aquí debes proporcionar el URL de conexión a tu base de datos MYSQL.
+- `DATABASE_URL`: Aquí debes proporcionar el URL de conexión a tu base de datos de PlanetScale.
 - `JWT_SECRET_KEY`: Esta clave secreta se utiliza para firmar los tokens JWT de autenticación.
 - `FRONTEND_URL`: Esta es la URL del origen permitido para las solicitudes CORS, especialmente útil durante el desarrollo para permitir solicitudes desde tu frontend local.
-
 
 ## FRONTEND
 
@@ -54,7 +50,7 @@ Dentro la carpeta `frontend` se encuentra la aplicación cliente de Servi Hub.
 
 ### Variables de Entorno
 
-Dentro de `frontend` se utilizar un archivo `.env` para setear variable de entorno de Vite
+Dentro de `frontend` se utiliza un archivo `.env` para setear variable de entorno de Vite
 
 - `VITE_BACKEND_URL`: URL del backend, en desarrollo suele ser `http://localhost:3000`
 
@@ -67,13 +63,13 @@ Dentro de `frontend` se utilizar un archivo `.env` para setear variable de entor
 - **React Hook Form:** Utilizado para gestionar formularios y validar datos.
 - **JS Cookie, React-Router-Dom, entre otros:** Utilizados para diversas funcionalidades adicionales.
 
-
 #### Instalación y Ejecución
 
 1. Cloná el repositorio:
 2. Instalá las dependencias en root directory: `npm install`
-3. Modificá el archivo `config.js` con las variables de entorno local de desarrollo necesarias.
-4. En otra terminal, accedé a la carpeta frontend: `cd frontend`
-5. Instalá las dependencias en root directory: `npm install`
-4. Creá un archivo `.env` para setear la variable de entorno de Vite previamente mencionada
-4. Ejecutá en ambas terminales: `npm run dev`
+3. Modificá el archivo `config.js` con las variables de entorno propias.
+4. Conectate a tu base de datos PlanetScale. Podés hacerlo via la interfaz de línea de comandos (CLI) de PlanetScale, MySQL Workbench u otro método que sea compatible con PlanetScale. Esto implica proporcionar las credenciales de conexión adecuadas, como el nombre de usuario, la contraseña y el nombre de la base de datos. Una vez establecida la conexión a la base de datos, ejecutá el contenido del archivo `init.sql` para crear las tablas y definir el esquema de la base de datos.  
+5. En otra terminal, accedé a la carpeta frontend: `cd frontend`
+6. Instalá las dependencias: `npm install`
+7. Creá un archivo `.env` dentro de `frontend` para setear la variable de entorno de Vite previamente mencionada.
+8. Ejecutá en ambas terminales: `npm run dev`

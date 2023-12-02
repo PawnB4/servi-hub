@@ -8,9 +8,12 @@ export const createContract = async (req, res) => {
     "INSERT INTO contracts (contract_mail, contract_message, contract_phone, service_id) VALUES (?,?,?,?)",
     [contract_mail, contract_message, contract_phone, service_id]
   );
-  const service = await conn.execute("SELECT * FROM services WHERE service_id = ?" ,[service_id])
-  let serviceName = service.rows[0].service_name
-  await sendContractSolicitedMail(contract_mail, serviceName)
+  const service = await conn.execute(
+    "SELECT * FROM services WHERE service_id = ?",
+    [service_id]
+  );
+  let serviceName = service.rows[0].service_name;
+  await sendContractSolicitedMail(contract_mail, serviceName);
 
   return res.status(201).json({
     contract_mail,
@@ -30,16 +33,20 @@ export const updateContract = async (req, res) => {
 };
 
 export const getServiceContracts = async (req, res) => {
-  const result = await conn.execute(
-    "SELECT * FROM contracts WHERE service_id = ?",
+  const serviceResult = await conn.execute(
+    "SELECT * FROM services WHERE service_id = ?",
     [req.params.id]
   );
-  if (result.rows.length===0) {
+  if (serviceResult.rows.length === 0) {
     return res.status(404).json({
       message: "Servicio no encontrado",
     });
   }
-  res.json(result.rows);
+  const contractResult = await conn.execute(
+    "SELECT * FROM contracts WHERE service_id = ?",
+    [req.params.id]
+  );
+  res.json(contractResult.rows);
 };
 
 export const deleteContract = async (req, res) => {

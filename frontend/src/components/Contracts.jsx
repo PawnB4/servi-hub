@@ -79,7 +79,7 @@ function Contracts({ service }) {
       {updatedContracts.map((contract) => (
         <div
           key={contract.contract_id}
-          className={`p-2 flex flex-col gap-2 justify-center shadow ${
+          className={`p-2 flex flex-col gap-2 justify-center  shadow ${
             contract.contract_status === "Solicitado"
               ? "bg-neutral md:col-start-1"
               : contract.contract_status === "Aceptado"
@@ -89,7 +89,7 @@ function Contracts({ service }) {
         >
           <h1>Correo: {contract.contract_mail}</h1>
           <h1>Telefono: {contract.contract_phone}</h1>
-          <h1>Mensaje: {contract.contract_message}</h1>
+          <h1 className="overflow-hidden">Mensaje: {contract.contract_message}</h1>
           <h1>Fecha de solicitud: {contract.contract_date.substring(0, 10)}</h1>
           {contract.contract_status === "Solicitado" && (
             <div className="flex justify-evenly gap-5">

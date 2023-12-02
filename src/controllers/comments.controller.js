@@ -32,14 +32,18 @@ export const updateComment = async (req, res) => {
 };
 
 export const getServiceComments = async (req, res) => {
-  const result = await conn.execute(
-    "SELECT * FROM comments WHERE service_id = ? ORDER BY comment_date DESC",
-    [req.params.id]
-  );
-  if (result.rows.length === 0 ) {
-    return res.status(404).json({
-      message: "Servicio no encontrado",
-    });
-  }
-  res.json(result.rows);
+ const serviceResult = await conn.execute(
+  "SELECT * FROM services WHERE service_id = ?",
+  [req.params.id]
+);
+if (serviceResult.rows.length === 0) {
+  return res.status(404).json({
+    message: "Servicio no encontrado",
+  });
+}
+const commentResult = await conn.execute(
+  "SELECT * FROM comments WHERE service_id = ? ORDER BY comment_date DESC",
+  [req.params.id]
+);
+res.json(commentResult.rows);
 };

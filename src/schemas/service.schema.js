@@ -56,17 +56,17 @@ export const createServiceSchema = z.object({
       invalid_type_error: "frequency must be a string",
     })
     .min(1)
-    .max(255),
+    .max(255)
+    .refine((value) => validFrequencies.includes(value), {
+      message: "invalid frequency",
+    }),
   duration: z
     .string({
       required_error: "duration is required",
       invalid_type_error: "duration must be a string",
     })
     .min(1)
-    .max(255)
-    .refine((value) => validFrequencies.includes(value), {
-      message: "invalid frequency",
-    }),
+    .max(255),
   cost: z
     .string({
       required_error: "cost is required",
